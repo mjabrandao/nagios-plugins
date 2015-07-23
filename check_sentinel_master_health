@@ -48,6 +48,7 @@
 # Author: Chris Boulton <chris@chrisboulton.com>
 # License: MIT (http://www.opensource.org/licenses/mit-license.php)
 #
+require 'rubygems'
 require 'redis'
 require 'optparse'
 
@@ -81,7 +82,7 @@ def add_info(msg)
 end
 
 def do_exit
-  puts "#{$exit_status.upcase} - #{$results.join('. ')}"
+  puts "#{$exit_status} - #{$results.join('. ')}"
   exit STATES[$exit_status]
 end
 
@@ -110,7 +111,7 @@ unless options[:master]
 end
 
 begin
-  redis = Redis.new(:host => options[:host], :port => options[:port], :timeout => options[:timeout])
+  redis = Redis.new(:host => options[:host], :port => options[:port])
 rescue Redis::BaseConnectionError => e
   add_state(:critical, e, true)
 end
